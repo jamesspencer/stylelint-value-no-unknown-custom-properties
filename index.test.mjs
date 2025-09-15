@@ -43,11 +43,11 @@ accept = [
 	{ code: '@import url("./test/import-custom-properties.css") screen; body { color: var(--brand-red); }' },
 	{ code: '@import url("./test/import-custom-properties.css" url-mod); body { color: var(--brand-red); }' },
 	{ code: '@import \'./test/import-custom-properties.css\'; @import \'./test/import-custom-properties123.css\'; body { color: var(--brand-red); }' },
-	{ code: 'color: var(--my-undefined-color, #ffffff);' },
 ];
 reject = [
 	{ code: 'body { color: var(--brand-blue); }', message: messages.unexpected('--brand-blue', 'color') },
 	{ code: '@import \'./test/import-custom-properties123.css\'; body { color: var(--brand-red); }', message: messages.unexpected('--brand-red', 'color') },
+	{ code: 'color: var(--my-undefined-color, #ffffff);', message: messages.unexpected('--my-undefined-color', 'color') },
 ];
 
 testRule({ plugins: ['.'], ruleName: rule.ruleName, config: true, accept, reject });
@@ -57,10 +57,10 @@ testRule({ plugins: ['.'], ruleName: rule.ruleName, config: true, accept, reject
 /* ========================================================================== */
 
 accept = [
-	{ code: 'body { color: var(--brand-blue, #33f); }' },
 ];
 reject = [
-	{ code: 'body { color: var(--brand-blue, var(--brand-red)); }', message: messages.unexpected('--brand-red', 'color') },
+	{ code: 'body { color: var(--brand-blue, #33f); }', message: messages.unexpected('--brand-blue', 'color')  },
+	{ code: 'body { --brand-blue: #33f; color: var(--brand-blue, var(--brand-red)); }', message: messages.unexpected('--brand-red', 'color') },
 ];
 testRule({ plugins: ['.'], ruleName: rule.ruleName, config: true, accept, reject });
 
