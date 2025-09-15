@@ -7,6 +7,10 @@
 [Stylelint Value No Unknown Custom Properties] is a [stylelint] rule to disallow usage of
 unknown custom properties.
 
+Forked from [csstools/stylelint-value-no-unknown-custom-properties](https://github.com/csstools/stylelint-value-no-unknown-custom-properties).
+
+**This version reports a warning for _any_ unknown custom property whereas the original does not report warnings if there exists a known fallback).**
+
 ## Usage
 
 Add [stylelint] and [Stylelint Value No Unknown Custom Properties] to your project.
