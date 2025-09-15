@@ -23,25 +23,23 @@ const validateValueAST = (ast, { result, customProperties, decl }) => {
 			const [propertyNode, , ...fallbacks] = node.nodes;
 			const propertyName = propertyNode.value;
 
-			if (propertyName in customProperties) {
-				return;
+			if (!(propertyName in customProperties)) {
+				stylelint.utils.report({
+					message: messages.unexpected(propertyName, decl.prop),
+					node: decl,
+					result,
+					ruleName,
+					word: String(propertyName),
+				});
 			}
 
+			const varFallbacks = fallbacks.filter(isVarFunction);
 			// conditionally test fallbacks
-			if (fallbacks.length) {
-				validateValueAST({ nodes: fallbacks.filter(isVarFunction) }, { result, customProperties, decl });
-
-				return;
+			if (varFallbacks.length) {
+				validateValueAST({ nodes:  varFallbacks}, { result, customProperties, decl });
 			}
 
-			// report unknown custom properties
-			stylelint.utils.report({
-				message: messages.unexpected(propertyName, decl.prop),
-				node: decl,
-				result,
-				ruleName,
-				word: String(propertyName),
-			});
+			return;
 		}
 	});
 };
