@@ -1,1 +1,1 @@
-export default 'csstools/value-no-unknown-custom-properties';
+export default 'jamesspencer/value-no-unknown-custom-properties';
